@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { HeroSlide } from '../../types';
@@ -10,6 +10,18 @@ interface SplitHeroProps {
 
 const SplitHero: React.FC<SplitHeroProps> = ({ slides }) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1024); // matching lg breakpoint
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+
 
   // Always aim for 4 panels to match IFP aesthetic
   const panelCount = 4;
@@ -27,8 +39,14 @@ const SplitHero: React.FC<SplitHeroProps> = ({ slides }) => {
             } ${index === panels.length - 1 ? 'rounded-r-[2rem]' : ''
             } rounded-2xl`}
           animate={{
-            flex: hoveredIndex === null ? 1 : hoveredIndex === index ? 2.5 : 0.5,
+            flex: hoveredIndex === null
+              ? 1
+              : hoveredIndex === index
+                ? (isMobile ? 2.5 : 1.2)
+                : (isMobile ? 0.5 : 0.93),
+
           }}
+
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           onMouseEnter={() => setHoveredIndex(index)}
           onMouseLeave={() => setHoveredIndex(null)}
