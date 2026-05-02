@@ -123,4 +123,4 @@ Default credentials (after seeding):
 This project is proprietary and built for Lenstalk Media.
 
 ---
-*Built with ❤️ by the Lenstalk Team.*
+*Built with ❤️ by the Soumabhi.*
