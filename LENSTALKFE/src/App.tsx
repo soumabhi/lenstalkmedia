@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import './index.css'
 import ScrollToTop from './utils/ScrollToTop';
 import LandingLoader from './components/LandingLoader';
 import Layout from './components/Layout';

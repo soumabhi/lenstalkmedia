@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Link } from 'react-router-dom';
-import { HeroSlide } from '../../types';
-import { ArrowRight } from 'lucide-react';
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "react-router-dom";
+import { HeroSlide } from "../../types";
+import { ArrowRight } from "lucide-react";
 
 interface SplitHeroProps {
   slides: HeroSlide[];
@@ -17,36 +17,41 @@ const SplitHero: React.FC<SplitHeroProps> = ({ slides }) => {
       setIsMobile(window.innerWidth < 1024); // matching lg breakpoint
     };
     checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
-
-
 
   // Always aim for 4 panels to match IFP aesthetic
   const panelCount = 4;
   const displaySlides = slides.slice(0, panelCount);
 
   // Fill remaining slots with null to trigger skeleton state
-  const panels = Array.from({ length: panelCount }).map((_, i) => displaySlides[i] || null);
+  const panels = Array.from({ length: panelCount }).map(
+    (_, i) => displaySlides[i] || null,
+  );
 
   return (
     <div className="flex flex-col lg:flex-row h-screen w-full overflow-hidden bg-black pt-[64px] p-4 gap-4">
       {panels.map((slide, index) => (
         <motion.div
           key={slide?.id || index}
-          className={`relative flex-1 h-full overflow-hidden group ${index === 0 ? 'rounded-l-[2rem]' : ''
-            } ${index === panels.length - 1 ? 'rounded-r-[2rem]' : ''
-            } rounded-2xl`}
+          className={`relative flex-1 h-full overflow-hidden group ${
+            index === 0 ? "rounded-l-[2rem]" : ""
+          } ${
+            index === panels.length - 1 ? "rounded-r-[2rem]" : ""
+          } rounded-2xl`}
           animate={{
-            flex: hoveredIndex === null
-              ? 1
-              : hoveredIndex === index
-                ? (isMobile ? 2.5 : 1.2)
-                : (isMobile ? 0.5 : 0.93),
-
+            flex:
+              hoveredIndex === null
+                ? 1
+                : hoveredIndex === index
+                  ? isMobile
+                    ? 1.5
+                    : 1.2
+                  : isMobile
+                    ? 0.5
+                    : 0.93,
           }}
-
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           onMouseEnter={() => setHoveredIndex(index)}
           onMouseLeave={() => setHoveredIndex(null)}
@@ -65,16 +70,18 @@ const SplitHero: React.FC<SplitHeroProps> = ({ slides }) => {
                       muted
                       loop
                       playsInline
-                      className={`h-full w-full object-cover transition-opacity duration-700 ${hoveredIndex === index ? 'opacity-85' : 'opacity-40'
-                        }`}
+                      className={`h-full w-full object-cover transition-opacity duration-700 ${
+                        hoveredIndex === index ? "opacity-85" : "opacity-40"
+                      }`}
                     />
                   ) : (
                     <img
                       key="image"
                       src={slide.imageUrl}
                       alt={slide.title}
-                      className={`h-full w-full object-cover transition-opacity duration-700 ${hoveredIndex === index ? 'opacity-85' : 'opacity-40'
-                        }`}
+                      className={`h-full w-full object-cover transition-opacity duration-700 ${
+                        hoveredIndex === index ? "opacity-85" : "opacity-40"
+                      }`}
                     />
                   )}
                 </AnimatePresence>
@@ -83,10 +90,11 @@ const SplitHero: React.FC<SplitHeroProps> = ({ slides }) => {
 
               {/* Content Wrapper */}
               <div className="relative z-10 h-full flex flex-col justify-end p-8 pb-16 lg:p-12 lg:pb-32 min-w-[320px]">
-                <motion.div layout className="space-y-3 flex flex-col items-start text-left">
-                  <motion.h2
-                    className="text-xl lg:text-2xl xl:text-3xl font-titillium font-[900] uppercase text-white leading-tight tracking-tight"
-                  >
+                <motion.div
+                  layout
+                  className="space-y-3 flex flex-col items-start text-left"
+                >
+                  <motion.h2 className="text-xl lg:text-2xl xl:text-3xl font-titillium font-[900] uppercase text-white leading-tight tracking-tight">
                     {slide.title}
                   </motion.h2>
 
@@ -94,7 +102,7 @@ const SplitHero: React.FC<SplitHeroProps> = ({ slides }) => {
                     initial={{ opacity: 0, height: 0 }}
                     animate={{
                       opacity: hoveredIndex === index ? 1 : 0,
-                      height: hoveredIndex === index ? 'auto' : 0
+                      height: hoveredIndex === index ? "auto" : 0,
                     }}
                     transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                     className="overflow-hidden"
